@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+<!-- 反向生成器 -->
+	<!-- mysql lib location -->
+	<classPathEntry location="C:\Users\aaaaa\.m2\repository\mysql\mysql-connector-java\8.0.11\mysql-connector-java-8.0.11.jar" />
+	<context id="DB2Tables" targetRuntime="MyBatis3" >
+		<commentGenerator >
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- mysql URL、username、password -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/person?serverTimezone=UTC" userId="root" password="0123456">
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- model package and location -->
+		<javaModelGenerator targetPackage="com.huawei.springboot.entries" targetProject="com.huawei.springboot">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- mapping package and location -->
+		<sqlMapGenerator targetPackage="com.huawei.springboot.mapper" targetProject="com.huawei.springboot">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- dao package and location -->
+		<javaClientGenerator  type="XMLMAPPER" targetPackage="com.huawei.springboot.mapper" targetProject="com.huawei.springboot">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		
+		<!-- table name,  change tableName and domainObjectName  -->
+		<table  tableName="muser"   />
+		
+	</context>
+</generatorConfiguration>
