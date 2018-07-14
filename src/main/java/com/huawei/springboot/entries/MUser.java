@@ -1,9 +1,13 @@
 package com.huawei.springboot.entries;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import java.io.Serializable;
 
-@EntityScan
-public class MUser {
+public class MUser implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
     private String name;

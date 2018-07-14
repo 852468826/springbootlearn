@@ -40,6 +40,11 @@ public class MybatisImp implements ImybatisService {
 		}
 		return false;
 	}
+	@Override
+	public MUser getUser(String id) {
+		
+		return muserMapper.selectByPrimaryKey(id);
+	}
 	
 
 }

@@ -19,4 +19,6 @@ public interface ImybatisService {
 
 public boolean createUser(MUser muser);
 
+public MUser getUser(String id);
+
 }
