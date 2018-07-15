@@ -2,6 +2,8 @@ package com.huawei.springboot.mybatiscontroller;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,35 +35,27 @@ public class MybatisController {
 		this.imybatis = imybatis;
 	}
 
-	
-	private RedisTemplate<Object, Object> redis;
-
-	
-	
-	public RedisTemplate<Object, Object> getRedis() {
-		return redis;
-	}
-	@Autowired
-	public void setRedis(RedisTemplate<Object, Object> redis) {
-		this.redis = redis;
-		RedisSerializer<Object> re = new GenericJackson2JsonRedisSerializer();
-		redis.setKeySerializer(re);
-		
-		redis.setValueSerializer(re);
-	}
-
-
 	@RequestMapping(value = "/getusers", method = RequestMethod.GET)
 	@ResponseBody
-	public List<MUser> getUsers() {
-		List<MUser> user = (List<MUser>) redis.opsForValue().get("all");
-		if (null == user || user.isEmpty()) {
-			user = imybatis.getUsers();
-			redis.opsForValue().set("all", user);
-			return imybatis.getUsers();
-		}
+	public Object getUsers() {
+		
+		// 线程调用查询学生
+		Runnable run = new Runnable() {
 
-		return user;
+			@Override
+			public void run() {
+				imybatis.getUsers();
+			}
+		};
+		// 多线程测试缓存穿透
+		ExecutorService ex = Executors.newFixedThreadPool(25);
+
+		for (int i = 0; i < 10000; i++) {
+			ex.submit(run);
+
+		}
+		return imybatis.getUsers();
+
 	}
 
 	@PutMapping(value = "/updateUser")
@@ -89,7 +83,7 @@ public class MybatisController {
 		muser.setAddress("29");
 		muser.setName("lcm");
 		muser.setAge(12);
-		redis.opsForValue().set(id, muser);
+
 		return imybatis.createUser(muser);
 
 	}
